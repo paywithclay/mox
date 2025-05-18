@@ -42,7 +42,7 @@ func Connect(uri, dbName string, opts ...*options.ClientOptions) (*Client, error
 // Collection returns a query.Collection for the given model
 func (c *Client) Collection(m model.Model) *query.Collection {
 	return &query.Collection{
-		Collection: c.database.Collection(m.CollectionName()),
+		Collection: c.database.Collection(m.Table()),
 	}
 }
 

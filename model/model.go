@@ -8,26 +8,38 @@ import (
 
 // Model defines the base interface for all models
 type Model interface {
-	CollectionName() string
+	Table() string
 }
 
-// Base provides common fields and functionality for all models
-type Base struct {
+// Document provides common fields and functionality for all models
+type Document struct {
 	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	CreatedAt time.Time          `bson:"created_at,omitempty" json:"created_at,omitempty"`
 	UpdatedAt time.Time          `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
+	DeletedAt *time.Time         `bson:"deleted_at,omitempty" json:"deleted_at,omitempty"`
 }
 
-// CollectionName returns the default collection name
-func (b *Base) CollectionName() string {
-	return "models"
+// Table returns the default collection name
+func (d *Document) Table() string {
+	return "documents"
 }
 
 // SetTimestamps updates the CreatedAt and UpdatedAt fields
-func (b *Base) SetTimestamps() {
+func (d *Document) SetTimestamps() {
 	now := time.Now()
-	if b.CreatedAt.IsZero() {
-		b.CreatedAt = now
+	if d.CreatedAt.IsZero() {
+		d.CreatedAt = now
 	}
-	b.UpdatedAt = now
+	d.UpdatedAt = now
+}
+
+// Archive soft deletes the document
+func (d *Document) Archive() {
+	now := time.Now()
+	d.DeletedAt = &now
+}
+
+// Restore un-deletes the document
+func (d *Document) Restore() {
+	d.DeletedAt = nil
 }
