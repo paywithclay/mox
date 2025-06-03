@@ -3,6 +3,7 @@
 > Shape MongoDB like clay — structured, expressive, effortless.
 
 Mox is a lightweight and idiomatic ODM (Object Document Mapper) for MongoDB in Go, built for developers who want clean data modeling and fast development.
+> This is still in experimental development please
 
 ## Features
 
